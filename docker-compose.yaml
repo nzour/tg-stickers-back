@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  postgres:
+    container_name: tg_stickers_postgres
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: tg_stickers
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - tg_stickers_volume:/var/lib/postgresql/data
+
+volumes:
+  tg_stickers_volume:
