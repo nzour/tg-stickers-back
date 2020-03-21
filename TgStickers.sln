@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgStickers.Api", "TgSticker
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgStickers.Infrastructure", "TgStickers.Infrastructure\TgStickers.Infrastructure.csproj", "{4C88533C-4DA6-4F1F-AD41-FF74003E138C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgStickers.Domain", "TgStickers.Domain\TgStickers.Domain.csproj", "{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{4C88533C-4DA6-4F1F-AD41-FF74003E138C}.Release|x64.Build.0 = Release|Any CPU
 		{4C88533C-4DA6-4F1F-AD41-FF74003E138C}.Release|x86.ActiveCfg = Release|Any CPU
 		{4C88533C-4DA6-4F1F-AD41-FF74003E138C}.Release|x86.Build.0 = Release|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Debug|x64.Build.0 = Debug|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Debug|x86.Build.0 = Debug|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Release|x64.ActiveCfg = Release|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Release|x64.Build.0 = Release|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Release|x86.ActiveCfg = Release|Any CPU
+		{3CACE02D-DD09-4C9F-A482-7279A7C3EFAF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

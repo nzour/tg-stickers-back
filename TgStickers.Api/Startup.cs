@@ -40,13 +40,11 @@ namespace TgStickers.Api
                 });
         }
 
-        public void Configure(IApplicationBuilder applicationBuilder)
-        {
+        public void Configure(IApplicationBuilder applicationBuilder) =>
             applicationBuilder
+                .UseAuthentication()
                 .UseRouting()
                 .UseAuthorization()
-                .UseAuthentication()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
-        }
     }
 }
