@@ -7,7 +7,7 @@ namespace TgStickers.Domain
     {
         Task<TEntity?> FindByIdAsync(object id);
 
-        Task<IQueryable<TEntity>> FindAllAsync();
+        IQueryable<TEntity> FindAll();
 
         Task SaveAsync(TEntity entity);
     }

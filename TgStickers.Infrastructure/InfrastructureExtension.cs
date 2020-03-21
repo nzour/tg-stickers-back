@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NHibernate;
+using TgStickers.Domain;
+using TgStickers.Domain.Entity;
 using TgStickers.Infrastructure.NHibernate;
 using TgStickers.Infrastructure.Transaction;
 
@@ -20,6 +22,12 @@ namespace TgStickers.Infrastructure
                 .AddSingleton(sessionFactory)
                 .AddScoped(_ => sessionFactory.OpenSession())
                 .AddScoped<ITransactional, NHibernateTransactional>();
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<IRepository<User>, NHibernateRepository<User>>();
         }
     }
 }
