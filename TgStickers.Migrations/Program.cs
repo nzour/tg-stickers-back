@@ -24,7 +24,7 @@ namespace TgStickers.Migrations
             {
                 "list" => () => CreateRunner().ListMigrations(),
                 "migrate" => () => CreateRunner().MigrateUp(),
-                "downgrade" => () => CreateDownGrader(args),
+                "downgrade" => CreateDownGrader(args),
                 _ => () => Console.WriteLine($"Unrecognozed action {action}")
             };
 
@@ -77,7 +77,7 @@ namespace TgStickers.Migrations
                 version = Console.ReadLine();
             }
 
-            return () => CreateRunner().MigrateDown(long.Parse(version));
+            return () => CreateRunner().MigrateDown(long.Parse(version ?? string.Empty));
         }
     }
 }
