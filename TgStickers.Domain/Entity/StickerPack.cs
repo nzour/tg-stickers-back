@@ -7,7 +7,7 @@ namespace TgStickers.Domain.Entity
         public Guid Id { get; }
         public string Name { get; set; }
         public string SharedUrl { get; set; }
-        public uint Claps { get; private set; }
+        public uint Claps { get; protected set; }
         public DateTime CreatedAt { get; }
         public Admin CreatedBy { get; }
 
