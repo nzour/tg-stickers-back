@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NHibernate;
+using TgStickers.Domain;
+using TgStickers.Domain.Entity;
 using TgStickers.Infrastructure.NHibernate;
 using TgStickers.Infrastructure.Transaction;
 
@@ -26,7 +28,8 @@ namespace TgStickers.Infrastructure
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            return services;
+            return services
+                .AddTransient<IRepository<Admin>, NHibernateRepository<Admin>>();
         }
     }
 }

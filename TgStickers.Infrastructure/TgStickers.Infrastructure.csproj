@@ -18,8 +18,4 @@
     <ProjectReference Include="..\TgStickers.Domain\TgStickers.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NHibernate\Mappings" />
-  </ItemGroup>
-
 </Project>
