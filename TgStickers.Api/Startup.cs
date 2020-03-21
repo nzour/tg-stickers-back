@@ -20,6 +20,7 @@ namespace TgStickers.Api
             var settings = new InfrastructureSettings();
 
             _configuration.Bind("Postgres", settings.NHibernateSettings);
+            _configuration.Bind("Jwt", settings.JwtSettings);
 
             services
                 .AddInfrastructure(settings)

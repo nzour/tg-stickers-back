@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NHibernate;
 using TgStickers.Domain;
 using TgStickers.Domain.Entity;
+using TgStickers.Infrastructure.Jwt;
 using TgStickers.Infrastructure.NHibernate;
 using TgStickers.Infrastructure.Security;
 using TgStickers.Infrastructure.Transaction;
@@ -15,7 +16,8 @@ namespace TgStickers.Infrastructure
             return services
                 .AddNHibernate(settings.NHibernateSettings)
                 .AddRepositories()
-                .AddSecurity();
+                .AddBCryptPasswordEncoder()
+                .AddDefaultJwtManager(settings.JwtSettings);
         }
 
         public static IServiceCollection AddNHibernate(this IServiceCollection services, NHibernateSettings settings)
@@ -35,9 +37,14 @@ namespace TgStickers.Infrastructure
                 .AddTransient<IRepository<StickerPack>, NHibernateRepository<StickerPack>>();
         }
 
-        public static IServiceCollection AddSecurity(this IServiceCollection services)
+        public static IServiceCollection AddBCryptPasswordEncoder(this IServiceCollection services)
         {
             return services.AddTransient<IPasswordEncoder, BCryptPasswordEncoder>();
+        }
+
+        public static IServiceCollection AddDefaultJwtManager(this IServiceCollection services, JwtSettings settings)
+        {
+            return services.AddTransient<IJwtManager>(_ => new DefaultJwtManager(settings.SecretKey, settings.TokenTtl));
         }
     }
 }
