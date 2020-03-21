@@ -6,7 +6,7 @@ using TgStickers.Infrastructure.Transaction;
 
 namespace TgStickers.Api.Controllers
 {
-    [ApiController, Route("auth"), AllowAnonymous]
+    [Route("auth"), AllowAnonymous]
     public class AuthorizationController : Controller
     {
         private readonly ITransactional _transactional;

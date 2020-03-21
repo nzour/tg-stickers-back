@@ -32,6 +32,10 @@ namespace TgStickers.Api
                 .AddTransient<CurrentAdminProvider>()
                 .AddTransient<ExceptionHandlingMiddleware>()
                 .AddControllers()
+                .AddMvcOptions(options =>
+                {
+                    options.Filters.Add<ModelValidationFilter>();
+                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.Converters.Add(new UnixDateTimeConverter());
