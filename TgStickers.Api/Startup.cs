@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using TgStickers.Api.Configuration;
+using TgStickers.Api.Policy;
 using TgStickers.Api.Services;
 using TgStickers.Application;
 using TgStickers.Infrastructure;
@@ -31,6 +33,7 @@ namespace TgStickers.Api
                 .AddHttpContextAccessor()
                 .AddTransient<CurrentAdminProvider>()
                 .AddTransient<ExceptionHandlingMiddleware>()
+                .AddTransient<IAuthorizationHandler, OnlyAdminPolicyHandler>()
                 .AddControllers()
                 .AddMvcOptions(options =>
                 {
@@ -41,6 +44,8 @@ namespace TgStickers.Api
                     options.SerializerSettings.Converters.Add(new UnixDateTimeConverter());
                     options.SerializerSettings.Converters.Add(new StringEnumConverter { AllowIntegerValues = false });
                 });
+
+            ApplyOnlyAdminPolicy(services);
         }
 
         public void Configure(IApplicationBuilder applicationBuilder) =>
@@ -50,5 +55,15 @@ namespace TgStickers.Api
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+
+        public static void ApplyOnlyAdminPolicy(IServiceCollection services)
+        {
+            services
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy(OnlyAdminPolicyRequirement.PolicyName, policy => policy.Requirements.Add(new OnlyAdminPolicyRequirement()));
+                })
+                .AddAuthentication(options => options.DefaultScheme = OnlyAdminPolicyRequirement.PolicyName);
+        }
     }
 }
