@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
+using TgStickers.Api.Configuration;
 using TgStickers.Infrastructure;
 
 namespace TgStickers.Api
@@ -24,6 +25,7 @@ namespace TgStickers.Api
 
             services
                 .AddInfrastructure(settings)
+                .AddTransient<ExceptionHandlingMiddleware>()
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
@@ -34,6 +36,7 @@ namespace TgStickers.Api
 
         public void Configure(IApplicationBuilder applicationBuilder) =>
             applicationBuilder
+                .UseMiddleware<ExceptionHandlingMiddleware>()
                 .UseAuthentication()
                 .UseRouting()
                 .UseAuthorization()

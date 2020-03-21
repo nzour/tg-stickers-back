@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgStickers.Domain", "TgStic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgStickers.Migrations", "TgStickers.Migrations\TgStickers.Migrations.csproj", "{687E6E82-48E0-4025-BFB6-6000F4A0D5F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgStickers.Application", "TgStickers.Application\TgStickers.Application.csproj", "{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,17 @@ Global
 		{687E6E82-48E0-4025-BFB6-6000F4A0D5F7}.Release|x64.Build.0 = Release|Any CPU
 		{687E6E82-48E0-4025-BFB6-6000F4A0D5F7}.Release|x86.ActiveCfg = Release|Any CPU
 		{687E6E82-48E0-4025-BFB6-6000F4A0D5F7}.Release|x86.Build.0 = Release|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Debug|x64.Build.0 = Debug|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Debug|x86.Build.0 = Debug|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Release|x64.ActiveCfg = Release|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Release|x64.Build.0 = Release|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{799C43F5-79E2-4B17-B5D9-A31C21ACCBB3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
