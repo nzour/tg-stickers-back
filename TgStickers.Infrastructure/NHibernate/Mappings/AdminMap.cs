@@ -1,3 +1,4 @@
+using FluentNHibernate;
 using FluentNHibernate.Mapping;
 using TgStickers.Domain.Entity;
 
@@ -15,6 +16,12 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
             Map(x => x.Login).Not.Nullable();
             Map(x => x.Password).Not.Nullable();
             Map(x => x.CreatedAt).Not.Nullable();
+
+            HasMany<StickerPack>(Reveal.Member<Admin>("StickerPacks"))
+                .Access.CamelCaseField(Prefix.Underscore)
+                .Cascade.AllDeleteOrphan()
+                .ExtraLazyLoad()
+                .Inverse();
         }
     }
 }

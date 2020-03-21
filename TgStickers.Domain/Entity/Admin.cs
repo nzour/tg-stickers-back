@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TgStickers.Domain.Entity
 {
@@ -9,6 +11,9 @@ namespace TgStickers.Domain.Entity
         public string Login { get; }
         public string Password { get; }
         public DateTime CreatedAt { get; }
+        public IReadOnlyCollection<StickerPack> StickerPacks => new ReadOnlyCollection<StickerPack>(_stickerPacks);
+
+        private readonly IList<StickerPack> _stickerPacks;
 
         public Admin(string name, string login, string password)
         {
@@ -17,6 +22,15 @@ namespace TgStickers.Domain.Entity
             Login = login;
             Password = password;
             CreatedAt = DateTime.UtcNow;
+            _stickerPacks = new List<StickerPack>();
+        }
+
+        public StickerPack AddNewStickerPack(string name, string sharedUrl)
+        {
+            var stickerPack = new StickerPack(name, sharedUrl, this);
+
+            _stickerPacks.Add(stickerPack);
+            return stickerPack;
         }
     }
 }
