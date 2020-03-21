@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TgStickers.Application\TgStickers.Application.fsproj" />
     <ProjectReference Include="..\TgStickers.Infrastructure\TgStickers.Infrastructure.csproj" />
   </ItemGroup>
 

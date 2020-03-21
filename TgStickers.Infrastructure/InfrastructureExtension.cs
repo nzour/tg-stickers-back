@@ -11,7 +11,9 @@ namespace TgStickers.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, InfrastructureSettings settings)
         {
-            return services.AddNHibernate(settings.NHibernateSettings);
+            return services
+                .AddNHibernate(settings.NHibernateSettings)
+                .AddRepositories();
         }
 
         public static IServiceCollection AddNHibernate(this IServiceCollection services, NHibernateSettings settings)

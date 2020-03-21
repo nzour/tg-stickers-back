@@ -27,6 +27,7 @@ namespace TgStickers.Infrastructure.NHibernate
         public async Task SaveAsync(TEntity entity)
         {
             await _session.SaveAsync(entity);
+            await _session.FlushAsync();
         }
     }
 }
