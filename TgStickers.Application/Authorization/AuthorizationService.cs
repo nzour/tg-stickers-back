@@ -23,12 +23,7 @@ namespace TgStickers.Application.Authorization
 
         public async Task<AdminTokenOutput> RegisterAsync(RegisterInput input)
         {
-            async Task<bool> IsLoginBusy() =>
-                0 != await _adminRepository.FindAll()
-                    .Where(x => input.Login == x.Login)
-                    .CountAsync();
-
-            if (await IsLoginBusy())
+            if (await IsLoginBusyAsync(input.Login))
             {
                 throw AuthorizationException.LoginIsBusy(input.Login);
             }
@@ -55,6 +50,13 @@ namespace TgStickers.Application.Authorization
             }
 
             return new AdminTokenOutput(admin, _jwtManager.CreateToken(admin));
+        }
+
+        public async Task<bool> IsLoginBusyAsync(string login)
+        {
+            return 0 != await _adminRepository.FindAll()
+                .Where(admin => login == admin.Login)
+                .CountAsync();
         }
     }
 }

@@ -30,5 +30,13 @@ namespace TgStickers.Api.Controllers
             // Если решусь добавить refresh-токен, то надо не забыть обернуть в транзакцию (т.к. refresh-токен буду хранить в базе)
             return await _authorizationService.LogInAsync(input);
         }
+
+        [HttpHead("login-busy")]
+        public async Task<StatusCodeResult> IsLoginBusyAsync([FromQuery] string login)
+        {
+            return await _authorizationService.IsLoginBusyAsync(login)
+                ? new StatusCodeResult(200)
+                : new StatusCodeResult(404);
+        }
     }
 }
