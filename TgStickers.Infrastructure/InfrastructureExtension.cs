@@ -3,6 +3,7 @@ using NHibernate;
 using TgStickers.Domain;
 using TgStickers.Domain.Entity;
 using TgStickers.Infrastructure.NHibernate;
+using TgStickers.Infrastructure.Security;
 using TgStickers.Infrastructure.Transaction;
 
 namespace TgStickers.Infrastructure
@@ -13,7 +14,8 @@ namespace TgStickers.Infrastructure
         {
             return services
                 .AddNHibernate(settings.NHibernateSettings)
-                .AddRepositories();
+                .AddRepositories()
+                .AddSecurity();
         }
 
         public static IServiceCollection AddNHibernate(this IServiceCollection services, NHibernateSettings settings)
@@ -29,7 +31,13 @@ namespace TgStickers.Infrastructure
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             return services
-                .AddTransient<IRepository<Admin>, NHibernateRepository<Admin>>();
+                .AddTransient<IRepository<Admin>, NHibernateRepository<Admin>>()
+                .AddTransient<IRepository<StickerPack>, NHibernateRepository<StickerPack>>();
+        }
+
+        public static IServiceCollection AddSecurity(this IServiceCollection services)
+        {
+            return services.AddTransient<IPasswordEncoder, BCryptPasswordEncoder>();
         }
     }
 }
