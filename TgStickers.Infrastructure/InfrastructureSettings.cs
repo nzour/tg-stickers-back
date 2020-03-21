@@ -1,5 +1,3 @@
-using System;
-
 namespace TgStickers.Infrastructure
 {
     public class InfrastructureSettings

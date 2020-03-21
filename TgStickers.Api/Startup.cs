@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using TgStickers.Api.Configuration;
 using TgStickers.Api.Services;
+using TgStickers.Application;
 using TgStickers.Infrastructure;
 
 namespace TgStickers.Api
@@ -26,6 +27,7 @@ namespace TgStickers.Api
 
             services
                 .AddInfrastructure(settings)
+                .AddApplicationServices()
                 .AddHttpContextAccessor()
                 .AddTransient<CurrentAdminProvider>()
                 .AddTransient<ExceptionHandlingMiddleware>()
