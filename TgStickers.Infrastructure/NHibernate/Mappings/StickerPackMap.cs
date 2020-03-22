@@ -1,3 +1,4 @@
+using FluentNHibernate;
 using FluentNHibernate.Mapping;
 using TgStickers.Domain.Entity;
 
@@ -21,6 +22,12 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
                 .Cascade.Persist()
                 .Cascade.Delete()
                 .LazyLoad();
+
+            HasMany<Donation>(Reveal.Member<StickerPack>("Donations"))
+                .Access.CamelCaseField(Prefix.Underscore)
+                .Cascade.AllDeleteOrphan()
+                .ExtraLazyLoad()
+                .Inverse();
         }
     }
 }
