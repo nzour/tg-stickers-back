@@ -5,12 +5,12 @@ namespace TgStickers.Infrastructure.Transaction
 {
     public interface ITransactional
     {
-        Task DoAsync(Action action);
+        Task ExecuteAsync(Action action);
 
-        Task DoAsync(Func<Task> action);
+        Task ExecuteAsync(Func<Task> action);
 
-        Task<T> DoAsync<T>(Func<T> action);
+        Task<T> ExecuteAsync<T>(Func<T> action);
         
-        Task<T> DoAsync<T>(Func<Task<T>> action);
+        Task<T> ExecuteAsync<T>(Func<Task<T>> action);
     }
 }

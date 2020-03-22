@@ -13,7 +13,7 @@ namespace TgStickers.Infrastructure.Transaction
             _session = session;
         }
 
-        public async Task DoAsync(Action action)
+        public async Task ExecuteAsync(Action action)
         {
             using var transaction = _session.BeginTransaction();
 
@@ -29,7 +29,7 @@ namespace TgStickers.Infrastructure.Transaction
             }
         }
 
-        public async Task DoAsync(Func<Task> action)
+        public async Task ExecuteAsync(Func<Task> action)
         {
             using var transaction = _session.BeginTransaction();
 
@@ -45,7 +45,7 @@ namespace TgStickers.Infrastructure.Transaction
             }
         }
 
-        public async Task<T> DoAsync<T>(Func<T> action)
+        public async Task<T> ExecuteAsync<T>(Func<T> action)
         {
             using var transaction = _session.BeginTransaction();
 
@@ -63,7 +63,7 @@ namespace TgStickers.Infrastructure.Transaction
             }
         }
 
-        public async Task<T> DoAsync<T>(Func<Task<T>> action)
+        public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
         {
             using var transaction = _session.BeginTransaction();
 

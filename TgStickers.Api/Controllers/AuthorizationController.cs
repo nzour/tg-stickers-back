@@ -21,7 +21,7 @@ namespace TgStickers.Api.Controllers
         [HttpPost("register")]
         public async Task<AdminTokenOutput> RegisterAsync([FromBody] RegisterInput input)
         {
-            return await _transactional.DoAsync(async () => await _authorizationService.RegisterAsync(input));
+            return await _transactional.ExecuteAsync(async () => await _authorizationService.RegisterAsync(input));
         }
 
         [HttpPost("login")]

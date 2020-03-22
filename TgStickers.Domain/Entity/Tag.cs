@@ -7,14 +7,14 @@ namespace TgStickers.Domain.Entity
     public class Tag
     {
         public Guid Id { get; }
-        public string Name { get; }
+        public string Name { get; set; }
         public IReadOnlyCollection<StickerPack> StickerPacks => new ReadOnlyCollection<StickerPack>(_stickerPacks);
 
         private readonly IList<StickerPack> _stickerPacks;
 
-        public Tag(Guid id, string name)
+        public Tag(string name)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Name = name;
             _stickerPacks = new List<StickerPack>();
         }
