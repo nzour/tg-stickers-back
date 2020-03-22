@@ -8,7 +8,7 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
     {
         public TagMap()
         {
-            Table("Stickers");
+            Table("Tags");
 
             Id(x => x.Id).GeneratedBy.Assigned();
 
@@ -18,8 +18,8 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
                 .Access.CamelCaseField(Prefix.Underscore)
                 .ExtraLazyLoad()
                 .Cascade.Persist()
-                .ParentKeyColumn("TagId")
-                .ChildKeyColumn("StickerPackId")
+                .ParentKeyColumn("StickerPackId")
+                .ChildKeyColumn("TagId")
                 .Table("StickerTags_Pivot")
                 .Inverse();
         }
