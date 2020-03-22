@@ -18,6 +18,9 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
                 .Access.CamelCaseField(Prefix.Underscore)
                 .ExtraLazyLoad()
                 .Cascade.Persist()
+                .ParentKeyColumn("TagId")
+                .ChildKeyColumn("StickerPackId")
+                .Table("StickerTags_Pivot")
                 .Inverse();
         }
     }

@@ -31,7 +31,10 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
 
             HasManyToMany<StickerPack>(Reveal.Member<StickerPack>("Tags"))
                 .Access.CamelCaseField(Prefix.Underscore)
-                .ExtraLazyLoad();
+                .ExtraLazyLoad()
+                .ParentKeyColumn("StickerPackId")
+                .ChildKeyColumn("TagId")
+                .Table("StickerTags_Pivot");
         }
     }
 }
