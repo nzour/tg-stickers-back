@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using NHibernate;
 using TgStickers.Domain;
 using TgStickers.Domain.Entity;
@@ -17,7 +20,8 @@ namespace TgStickers.Infrastructure
                 .AddNHibernate(settings.NHibernateSettings)
                 .AddRepositories()
                 .AddBCryptPasswordEncoder()
-                .AddDefaultJwtManager(settings.JwtSettings);
+                .AddDefaultJwtManager(settings.JwtSettings)
+                .AddJwtAuthentication(settings.JwtSettings);
         }
 
         public static IServiceCollection AddNHibernate(this IServiceCollection services, NHibernateSettings settings)
@@ -45,6 +49,32 @@ namespace TgStickers.Infrastructure
         public static IServiceCollection AddDefaultJwtManager(this IServiceCollection services, JwtSettings settings)
         {
             return services.AddTransient<IJwtManager>(_ => new DefaultJwtManager(settings.SecretKey, settings.TokenTtl));
+        }
+
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, JwtSettings settings)
+        {
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    var key = Encoding.UTF8.GetBytes(settings.SecretKey);
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        RequireExpirationTime =  true,
+                        ValidateLifetime = true,
+                        ValidateIssuer = false,
+                        ValidateAudience =  false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                    };
+                });
+
+            return services;
         }
     }
 }
