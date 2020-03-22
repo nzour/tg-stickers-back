@@ -14,7 +14,7 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
 
             Map(x => x.Name).Not.Nullable();
 
-            HasManyToMany<StickerPack>(Reveal.Member<Tag>("Stickers"))
+            HasManyToMany<StickerPack>(Reveal.Member<Tag>("StickerPacks"))
                 .Access.CamelCaseField(Prefix.Underscore)
                 .ExtraLazyLoad()
                 .Cascade.Persist()

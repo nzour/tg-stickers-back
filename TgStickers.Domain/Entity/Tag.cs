@@ -19,12 +19,12 @@ namespace TgStickers.Domain.Entity
             _stickerPacks = new List<StickerPack>();
         }
 
-        internal void AddStickerPack(StickerPack stickerPack)
+        protected internal void AddStickerPack(StickerPack stickerPack)
         {
             _stickerPacks.Add(stickerPack);
         }
 
-        internal void RemoveStickerPack(StickerPack stickerPack)
+        protected internal void RemoveStickerPack(StickerPack stickerPack)
         {
             _stickerPacks.Remove(stickerPack);
         }
