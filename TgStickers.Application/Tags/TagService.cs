@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NHibernate.Linq;
 using TgStickers.Application.Common;
 using TgStickers.Application.Exceptions;
 using TgStickers.Domain;
@@ -36,6 +37,11 @@ namespace TgStickers.Application.Tags
 
         public async Task<TagOutput> CreateTagAsync(TagInput input)
         {
+            if (await IsTagNameBusyAsync(input.Name))
+            {
+                throw TagException.NameIsBusy(input.Name);
+            }
+
             var tag = new Tag(input.Name);
 
             await _tagRepository.SaveAsync(tag);
@@ -52,9 +58,21 @@ namespace TgStickers.Application.Tags
                 throw NotFoundException<Tag>.WithId(tagId);
             }
 
+            if (await IsTagNameBusyAsync(input.Name))
+            {
+                throw TagException.NameIsBusy(input.Name);
+            }
+
             tag.Name = input.Name;
 
             return new TagOutput(tag);
+        }
+
+        public async Task<bool> IsTagNameBusyAsync(string name)
+        {
+            return 0 != await _tagRepository.FindAll()
+                .Where(tag => name == tag.Name)
+                .CountAsync();
         }
     }
 }

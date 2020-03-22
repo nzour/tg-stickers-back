@@ -40,5 +40,13 @@ namespace TgStickers.Api.Controllers
         {
             return await _transactional.ExecuteAsync(async () => await _tagService.UpdateTagAsync(tagId, input));
         }
+
+        [HttpHead("name-busy")]
+        public async Task<StatusCodeResult> IsTagNameBusyAsync([FromBody] TagInput input)
+        {
+            return await _tagService.IsTagNameBusyAsync(input.Name)
+                ? new StatusCodeResult(200)
+                : new StatusCodeResult(404);
+        }
     }
 }
