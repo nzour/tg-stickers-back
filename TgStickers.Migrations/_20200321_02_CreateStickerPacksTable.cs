@@ -3,8 +3,8 @@ using static System.Data.Rule;
 
 namespace TgStickers.Migrations
 {
-    [Migration(2019032102)]
-    public class _20190321_02_CreateStickerPacksTable : Migration
+    [Migration(2020032102)]
+    public class _20200321_02_CreateStickerPacksTable : Migration
     {
         public override void Up()
         {

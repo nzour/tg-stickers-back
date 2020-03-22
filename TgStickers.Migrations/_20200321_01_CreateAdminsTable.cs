@@ -2,8 +2,8 @@ using FluentMigrator;
 
 namespace TgStickers.Migrations
 {
-    [Migration(2019032101)]
-    public class _20190321_01_CreateAdminsTable : Migration
+    [Migration(2020032101)]
+    public class _20200321_01_CreateAdminsTable : Migration
     {
         public override void Up()
         {

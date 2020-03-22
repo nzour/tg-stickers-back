@@ -23,7 +23,7 @@ namespace TgStickers.Migrations
 
             Create.ForeignKey("Donations_StickerPackId_fkey")
                 .FromTable("Donations")
-                .ForeignColumn("StickerPackid")
+                .ForeignColumn("StickerPackId")
                 .ToTable("StickerPacks")
                 .PrimaryColumn("Id");
         }
