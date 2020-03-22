@@ -3,6 +3,10 @@ namespace TgStickers.Application.Common
     public enum SearchType
     {
         Equals,
-        Contains
+        Contains,
+        GreaterThan,
+        GreaterOrEquals,
+        LessThan,
+        LessOrEquals
     }
 }

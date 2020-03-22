@@ -32,5 +32,10 @@ namespace TgStickers.Domain.Entity
             _stickerPacks.Add(stickerPack);
             return stickerPack;
         }
+
+        public bool IsOwnerOf(StickerPack stickerPack)
+        {
+            return Id.Equals(stickerPack.CreatedBy.Id);
+        }
     }
 }
