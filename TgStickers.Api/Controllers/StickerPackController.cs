@@ -28,7 +28,7 @@ namespace TgStickers.Api.Controllers
             _transactional = transactional;
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public async Task<PaginatedData<StickerPackOutput>> GetAllStickerPacksAsync(
             [FromQuery] StickerPackSorting sorting,
             [FromQuery] StickerPackNameFilter nameFilter,
@@ -41,7 +41,6 @@ namespace TgStickers.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<StickerPackOutput> CreateStickerPackAsync([FromBody] StickerPackInput input)
         {
             var currentAdmin = await _currentAdminProvider.ProviderCurrentAdminAsync();
@@ -51,7 +50,6 @@ namespace TgStickers.Api.Controllers
         }
 
         [HttpPut("{stickerPackId:guid}")]
-        [Authorize]
         public async Task<StickerPackOutput> UpdateStickerPackAsync([FromRoute] Guid stickerPackId, [FromBody] StickerPackInput input)
         {
             var currentAdmin = await _currentAdminProvider.ProviderCurrentAdminAsync();
@@ -60,7 +58,7 @@ namespace TgStickers.Api.Controllers
                 await _stickerPackService.UpdateStickerPackAsync(currentAdmin, stickerPackId, input));
         }
 
-        [HttpPatch("{stickerPackId:guid}/claps")]
+        [HttpPatch("{stickerPackId:guid}/claps"), AllowAnonymous]
         public async Task<StickerPackOutput> IncreaseClapsAsync([FromRoute] Guid stickerPackId, [FromBody] IncreaseClapsInput input)
         {
             return await _transactional.ExecuteAsync(async () =>

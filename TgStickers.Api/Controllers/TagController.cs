@@ -8,7 +8,7 @@ using TgStickers.Infrastructure.Transaction;
 
 namespace TgStickers.Api.Controllers
 {
-    [Microsoft.AspNetCore.Components.Route("tags")]
+    [Route("tags")]
     public class TagController : Controller
     {
         private readonly ITransactional _transactional;
@@ -20,7 +20,7 @@ namespace TgStickers.Api.Controllers
             _tagService = tagService;
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public async Task<PaginatedData<TagOutput>> GetAllTagsAsync(
             [FromQuery] Pagination pagination,
             [FromQuery] TagNameFilter tagNameFilter
@@ -29,13 +29,13 @@ namespace TgStickers.Api.Controllers
             return await _tagService.FindAllTagsAsync(tagNameFilter, pagination);
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
         public async Task<TagOutput> CreateTagAsync([FromBody] TagInput input)
         {
             return await _transactional.ExecuteAsync(async () => await _tagService.CreateTagAsync(input));
         }
 
-        [HttpPut("{tagId:guid}"), Authorize]
+        [HttpPut("{tagId:guid}")]
         public async Task<TagOutput> UpdateTagAsync([FromRoute] Guid tagId, [FromBody] TagInput input)
         {
             return await _transactional.ExecuteAsync(async () => await _tagService.UpdateTagAsync(tagId, input));
