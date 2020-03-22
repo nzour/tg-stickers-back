@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace TgStickers.Domain.Entity
 {
@@ -13,10 +14,12 @@ namespace TgStickers.Domain.Entity
         public DateTime CreatedAt { get; }
         public Admin CreatedBy { get; }
         public IReadOnlyCollection<Donation> Donations => new ReadOnlyCollection<Donation>(_donations);
+        public IReadOnlyCollection<Tag> Tags => new ReadOnlyCollection<Tag>(_tags);
 
         private readonly IList<Donation> _donations;
+        private readonly List<Tag> _tags;
 
-        internal StickerPack(string name, string sharedUrl, Admin createdBy)
+        internal StickerPack(string name, string sharedUrl, Admin createdBy, IEnumerable<Tag> tags)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -25,6 +28,7 @@ namespace TgStickers.Domain.Entity
             CreatedAt = DateTime.UtcNow;
             CreatedBy = createdBy;
             _donations = new List<Donation>();
+            _tags = tags.ToList();
         }
 
         public void IncreaseClaps(uint clapsCount = 1)
@@ -39,6 +43,17 @@ namespace TgStickers.Domain.Entity
             _donations.Add(donation);
 
             return donation;
+        }
+
+        public void ReplaceTags(IEnumerable<Tag> tags)
+        {
+            foreach (var tag in _tags)
+            {
+                tag.RemoveStickerPack(this);
+            }
+
+            _tags.Clear();
+            _tags.AddRange(tags);
         }
     }
 }

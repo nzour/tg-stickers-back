@@ -25,9 +25,9 @@ namespace TgStickers.Domain.Entity
             _stickerPacks = new List<StickerPack>();
         }
 
-        public StickerPack AddNewStickerPack(string name, string sharedUrl)
+        public StickerPack AddNewStickerPack(string name, string sharedUrl, IEnumerable<Tag> tags)
         {
-            var stickerPack = new StickerPack(name, sharedUrl, this);
+            var stickerPack = new StickerPack(name, sharedUrl, this, tags);
 
             _stickerPacks.Add(stickerPack);
             return stickerPack;

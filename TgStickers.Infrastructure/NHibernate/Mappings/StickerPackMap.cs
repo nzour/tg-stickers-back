@@ -28,6 +28,10 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
                 .Cascade.AllDeleteOrphan()
                 .ExtraLazyLoad()
                 .Inverse();
+
+            HasManyToMany<StickerPack>(Reveal.Member<StickerPack>("Tags"))
+                .Access.CamelCaseField(Prefix.Underscore)
+                .ExtraLazyLoad();
         }
     }
 }
