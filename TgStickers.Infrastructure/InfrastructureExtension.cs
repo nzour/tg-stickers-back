@@ -38,7 +38,9 @@ namespace TgStickers.Infrastructure
         {
             return services
                 .AddTransient<IRepository<Admin>, NHibernateRepository<Admin>>()
-                .AddTransient<IRepository<StickerPack>, NHibernateRepository<StickerPack>>();
+                .AddTransient<IRepository<StickerPack>, NHibernateRepository<StickerPack>>()
+                .AddTransient<IRepository<Donation>, NHibernateRepository<Donation>>()
+                .AddTransient<IRepository<Tag>, NHibernateRepository<Tag>>();
         }
 
         public static IServiceCollection AddBCryptPasswordEncoder(this IServiceCollection services)
