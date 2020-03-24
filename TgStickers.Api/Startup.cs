@@ -47,15 +47,15 @@ namespace TgStickers.Api
 
         public void Configure(IApplicationBuilder applicationBuilder) =>
             applicationBuilder
+                .UseCors(config =>
+                    config
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin())
                 .UseMiddleware<ExceptionHandlingMiddleware>()
                 .UseAuthentication()
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
-
-        public static void ApplyOnlyAdminPolicy(IServiceCollection services, string secretKey)
-        {
-            
-        }
     }
 }
