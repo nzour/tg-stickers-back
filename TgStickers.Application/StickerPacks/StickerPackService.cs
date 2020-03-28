@@ -122,7 +122,7 @@ namespace TgStickers.Application.StickerPacks
 
         private static IQueryable<StickerPack> ApplyNameFilter(IQueryable<StickerPack> stickerPacks, StickerPackNameFilter filter)
         {
-            if (!filter.HasValue)
+            if (string.IsNullOrWhiteSpace(filter.Name))
             {
                 return stickerPacks;
             }
@@ -137,7 +137,7 @@ namespace TgStickers.Application.StickerPacks
 
         private static IQueryable<StickerPack> ApplyClapsFilter(IQueryable<StickerPack> stickerPacks, StickerPackClapsFilter filter)
         {
-            if (!filter.HasValue)
+            if (null == filter.ClapsCount)
             {
                 return stickerPacks;
             }
@@ -155,7 +155,7 @@ namespace TgStickers.Application.StickerPacks
 
         private async Task<IQueryable<StickerPack>> ApplyTagsFilterAsync(IQueryable<StickerPack> stickerPacks, StickerPackTagsFilter filter)
         {
-            if (!filter.HasValue)
+            if (filter.TagIds.IsEmpty())
             {
                 return stickerPacks;
             }

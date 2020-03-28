@@ -4,9 +4,7 @@ namespace TgStickers.Application.StickerPacks.Filters
 {
     public class StickerPackNameFilter
     {
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
         public SearchType NameSearchType { get; set; } = SearchType.Equals;
-
-        public bool HasValue => string.Empty != Name.Trim();
     }
 }

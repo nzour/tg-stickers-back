@@ -23,11 +23,11 @@ namespace TgStickers.Application.Tags
         {
             var tags = _tagRepository.FindAll();
 
-            if (tagNameFilter.HasValue)
+            if (!string.IsNullOrWhiteSpace(tagNameFilter.Name))
             {
                 tags = tagNameFilter.SearchType == SearchType.Equals
                     ? tags.Where(tag => tagNameFilter.Name == tag.Name)
-                    : tags.Where(tag => tag.Name.Contains(tagNameFilter.Name));
+                    : tags.Where(tag => tag.Name.Contains(tagNameFilter.Name!));
             }
 
             return await tags
