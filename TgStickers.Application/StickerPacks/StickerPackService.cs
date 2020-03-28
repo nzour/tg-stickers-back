@@ -127,7 +127,7 @@ namespace TgStickers.Application.StickerPacks
                 return stickerPacks;
             }
 
-            return filter.SearchType switch
+            return filter.NameSearchType switch
             {
                 Contains => stickerPacks.Where(s => s.Name.Contains(filter.Name)),
                 SearchType.Equals => stickerPacks.Where(s => filter.Name == s.Name),
@@ -142,7 +142,7 @@ namespace TgStickers.Application.StickerPacks
                 return stickerPacks;
             }
 
-            return filter.SearchType switch
+            return filter.ClapsSearchType switch
             {
                 SearchType.Equals => stickerPacks.Where(s => filter.ClapsCount == s.Claps),
                 GreaterThan => stickerPacks.Where(s => s.Claps > filter.ClapsCount),
