@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using TgStickers.Application.Authorization;
+using TgStickers.Application.Donations;
+using TgStickers.Application.StickerPacks;
 using TgStickers.Application.Tags;
 
 namespace TgStickers.Application
@@ -10,6 +12,8 @@ namespace TgStickers.Application
         {
             return services
                 .AddTransient<AuthorizationService>()
+                .AddTransient<StickerPackService>()
+                .AddTransient<DonationService>()
                 .AddTransient<TagService>();
         }
     }
