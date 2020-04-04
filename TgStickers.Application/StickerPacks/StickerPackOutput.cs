@@ -12,7 +12,7 @@ namespace TgStickers.Application.StickerPacks
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string SharedUrl { get; set; }
-        public uint Claps { get; set; }
+        public int Claps { get; set; }
         public DateTime CreatedAt { get; set; }
         public AdminOutput CreatedBy { get; set; }
         public IEnumerable<TagOutput> Tags { get; set; }

@@ -10,14 +10,14 @@ namespace TgStickers.Domain.Entity
         public Guid Id { get; }
         public string Name { get; set; }
         public string SharedUrl { get; set; }
-        public uint Claps { get; protected set; }
+        public int Claps { get; protected set; }
         public DateTime CreatedAt { get; }
         public Admin CreatedBy { get; }
         public IReadOnlyCollection<Donation> Donations => new ReadOnlyCollection<Donation>(_donations);
         public IReadOnlyCollection<Tag> Tags => new ReadOnlyCollection<Tag>(_tags);
 
         private readonly IList<Donation> _donations;
-        private readonly List<Tag> _tags;
+        private readonly IList<Tag> _tags;
 
         internal StickerPack(string name, string sharedUrl, Admin createdBy, IEnumerable<Tag> tags)
         {
@@ -31,7 +31,7 @@ namespace TgStickers.Domain.Entity
             _tags = tags.ToList();
         }
 
-        public void IncreaseClaps(uint clapsCount = 1)
+        public void IncreaseClaps(int clapsCount = 1)
         {
             Claps += clapsCount;
         }
@@ -53,7 +53,11 @@ namespace TgStickers.Domain.Entity
             }
 
             _tags.Clear();
-            _tags.AddRange(tags);
+
+            foreach (var tag in tags)
+            {
+                _tags.Add(tag);
+            }
         }
     }
 }

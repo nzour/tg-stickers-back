@@ -75,7 +75,7 @@ namespace TgStickers.Application.StickerPacks
         {
             var stickerPack = await GetStickerPack(stickerPackId);
 
-            stickerPack.IncreaseClaps(clapsToAdd);
+            stickerPack.IncreaseClaps((int) clapsToAdd);
 
             return new StickerPackOutput(stickerPack);
         }
