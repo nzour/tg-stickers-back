@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentNHibernate.Conventions;
-using FluentNHibernate.Utils;
 using NHibernate.Linq;
 using TgStickers.Application.Common;
 using TgStickers.Application.Exceptions;
@@ -160,11 +159,13 @@ namespace TgStickers.Application.StickerPacks
                 return stickerPacks;
             }
 
-            var tags = await _tagRepository.FindAll()
+            var tagsIds = await _tagRepository.FindAll()
                 .Where(tag => filter.TagIds.Contains(tag.Id))
+                .Select(tag => tag.Id)
                 .ToListAsync();
 
-            return stickerPacks.Where(stickerPack => tags.In(stickerPack.Tags));
+            return stickerPacks.Where(stickerPack =>
+                stickerPack.Tags.Any(t => tagsIds.Contains(t.Id)));
         }
     }
 }
