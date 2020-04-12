@@ -29,9 +29,10 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
                 .ExtraLazyLoad()
                 .Inverse();
 
-            HasManyToMany<StickerPack>(Reveal.Member<StickerPack>("Tags"))
+            HasManyToMany<Tag>(Reveal.Member<StickerPack>("Tags"))
                 .Access.CamelCaseField(Prefix.Underscore)
                 .ExtraLazyLoad()
+                .Cascade.All()
                 .ParentKeyColumn("StickerPackId")
                 .ChildKeyColumn("TagId")
                 .Table("StickerTags_Pivot");

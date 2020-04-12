@@ -47,11 +47,6 @@ namespace TgStickers.Domain.Entity
 
         public void ReplaceTags(IEnumerable<Tag> tags)
         {
-            foreach (var tag in _tags)
-            {
-                tag.RemoveStickerPack(this);
-            }
-
             _tags.Clear();
 
             foreach (var tag in tags)

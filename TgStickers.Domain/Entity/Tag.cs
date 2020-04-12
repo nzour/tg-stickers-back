@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace TgStickers.Domain.Entity
 {
@@ -8,25 +6,11 @@ namespace TgStickers.Domain.Entity
     {
         public Guid Id { get; }
         public string Name { get; set; }
-        public IReadOnlyCollection<StickerPack> StickerPacks => new ReadOnlyCollection<StickerPack>(_stickerPacks);
-
-        private readonly IList<StickerPack> _stickerPacks;
 
         public Tag(string name)
         {
             Id = Guid.NewGuid();
             Name = name;
-            _stickerPacks = new List<StickerPack>();
-        }
-
-        protected internal void AddStickerPack(StickerPack stickerPack)
-        {
-            _stickerPacks.Add(stickerPack);
-        }
-
-        protected internal void RemoveStickerPack(StickerPack stickerPack)
-        {
-            _stickerPacks.Remove(stickerPack);
         }
     }
 }
