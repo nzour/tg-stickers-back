@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,9 +59,9 @@ namespace TgStickers.Api.Controllers
         }
 
         [HttpPatch("claps"), AllowAnonymous]
-        public async Task IncreaseClapsAsync([FromBody] IEnumerable<IncreaseClapsInput> inputs)
+        public async Task IncreaseClapsAsync([FromBody] IncreaseClapsInput input)
         {
-            await _transactional.ExecuteAsync(async () => await _stickerPackService.IncreaseClapsAsync(inputs));
+            await _transactional.ExecuteAsync(async () => await _stickerPackService.IncreaseClapsAsync(input.ClapsInput));
         }
     }
 }

@@ -70,7 +70,7 @@ namespace TgStickers.Application.StickerPacks
             return new StickerPackOutput(stickerPack);
         }
 
-        public async Task IncreaseClapsAsync(IEnumerable<IncreaseClapsInput> inputs)
+        public async Task IncreaseClapsAsync(IEnumerable<ClapsToAddInput> inputs)
         {
             foreach (var input in inputs)
             {

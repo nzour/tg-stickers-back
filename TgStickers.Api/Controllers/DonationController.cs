@@ -9,7 +9,7 @@ using TgStickers.Infrastructure.Transaction;
 namespace TgStickers.Api.Controllers
 {
     [Route("donations"), AllowAnonymous]
-    public class DonationController
+    public class DonationController : Controller
     {
         private readonly DonationService _donationService;
         private readonly ITransactional _transactional;
