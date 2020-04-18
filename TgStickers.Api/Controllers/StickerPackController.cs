@@ -59,8 +59,8 @@ namespace TgStickers.Api.Controllers
                 await _stickerPackService.UpdateStickerPackAsync(currentAdmin, stickerPackId, input));
         }
 
-        [HttpPatch("{stickerPackId:guid}/claps"), AllowAnonymous]
-        public async Task IncreaseClapsAsync([FromRoute] Guid stickerPackId, [FromBody] IEnumerable<IncreaseClapsInput> inputs)
+        [HttpPatch("claps"), AllowAnonymous]
+        public async Task IncreaseClapsAsync([FromBody] IEnumerable<IncreaseClapsInput> inputs)
         {
             await _transactional.ExecuteAsync(async () => await _stickerPackService.IncreaseClapsAsync(inputs));
         }
