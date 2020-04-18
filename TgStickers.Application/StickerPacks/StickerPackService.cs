@@ -70,13 +70,14 @@ namespace TgStickers.Application.StickerPacks
             return new StickerPackOutput(stickerPack);
         }
 
-        public async Task<StickerPackOutput> IncreaseClapsAsync(Guid stickerPackId, uint clapsToAdd)
+        public async Task IncreaseClapsAsync(IEnumerable<IncreaseClapsInput> inputs)
         {
-            var stickerPack = await GetStickerPack(stickerPackId);
+            foreach (var input in inputs)
+            {
+                var stickerPack = await _stickerPackRepository.FindByIdAsync(input.StickerPackId);
 
-            stickerPack.IncreaseClaps((int) clapsToAdd);
-
-            return new StickerPackOutput(stickerPack);
+                stickerPack?.IncreaseClaps((int) input.ClapsToAdd);
+            }
         }
 
         private async Task<StickerPack> GetStickerPack(Guid stickerPackId)
