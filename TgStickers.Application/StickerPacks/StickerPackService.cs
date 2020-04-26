@@ -52,7 +52,7 @@ namespace TgStickers.Application.StickerPacks
             foreach (var stickerPack in paginatedStickers.Data)
             {
                 var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
-                var filePath = await _tgBot.GetFileFullPathAsync(stickerPack.Name, fileId: stickers.First());
+                var filePath = await _tgBot.GetFilePathAsync(stickerPack.Name, fileId: stickers.First());
 
                 result.Data = result.Data.Append(new StickerPackOutput(stickerPack, filePath, stickers.Count()));
             }
@@ -70,7 +70,7 @@ namespace TgStickers.Application.StickerPacks
             var stickerPack = currentAdmin.AddNewStickerPack(input.Name, input.Alias, await FindTagsAsync(input.TagIds));
 
             var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
-            var filePath = await _tgBot.GetFileFullPathAsync(stickerPack.Name, fileId: stickers.First());
+            var filePath = await _tgBot.GetFilePathAsync(stickerPack.Name, fileId: stickers.First());
 
             return new StickerPackOutput(stickerPack, filePath, stickers.Count());
         }
@@ -91,7 +91,7 @@ namespace TgStickers.Application.StickerPacks
             stickerPack.ReplaceTags(await FindTagsAsync(input.TagIds));
 
             var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
-            var filePath = await _tgBot.GetFileFullPathAsync(stickerPack.Name, fileId: stickers.First());
+            var filePath = await _tgBot.GetFilePathAsync(stickerPack.Name, fileId: stickers.First());
 
             return new StickerPackOutput(stickerPack, filePath, stickers.Count());
         }

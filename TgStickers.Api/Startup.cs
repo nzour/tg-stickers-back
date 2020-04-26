@@ -28,6 +28,10 @@ namespace TgStickers.Api
             _configuration.Bind("Jwt", settings.JwtSettings);
             _configuration.Bind("Telegram", settings.TelegramSettings);
 
+            if (!string.IsNullOrEmpty(settings.TelegramSettings.DirectoryToSaveImages)) {
+                System.IO.Directory.CreateDirectory(path: settings.TelegramSettings.DirectoryToSaveImages);
+            }
+
             services
                 .AddInfrastructure(settings)
                 .AddApplicationServices()

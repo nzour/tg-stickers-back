@@ -50,18 +50,19 @@ namespace TgStickers.Infrastructure.Telegram
             return stickers.Select(sticker => (string) sticker.thumb.file_id);
         }
 
-        public async Task<string> GetFileFullPathAsync(string stickerPackName, string fileId)
+        public async Task<string> GetFilePathAsync(string stickerPackName, string fileId)
         {
-            var filePath = GetFormattedFilename(stickerPackName, fileId, _directoryForImages);
+            var fileFullPath = GetFormattedFilename(stickerPackName, fileId, _directoryForImages);
+            var filePath = GetFormattedFilename(stickerPackName, fileId, baseDirectory: null);
 
-            if (File.Exists(filePath))
+            if (File.Exists(fileFullPath))
             {
                 return filePath;
             }
 
             Directory.CreateDirectory(path: $"{_directoryForImages}/{stickerPackName}");
 
-            await SaveFileAsync(filePath, await DownloadFileAsync(fileId));
+            await SaveFileAsync(fileFullPath, await DownloadFileAsync(fileId));
 
             return filePath;
         }
