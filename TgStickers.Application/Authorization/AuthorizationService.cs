@@ -42,7 +42,7 @@ namespace TgStickers.Application.Authorization
                 .Where(x => x.Login == input.Login)
                 .FirstOrDefaultAsync();
 
-            bool DoesNotMatchPasswords() => false == _passwordEncoder.VerifyPassword(input.Password, admin.Password);
+            bool DoesNotMatchPasswords() => false == _passwordEncoder.VerifyPassword(input.Password, admin!.Password);
 
             if (null == admin || DoesNotMatchPasswords())
             {

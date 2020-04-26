@@ -10,5 +10,7 @@ namespace TgStickers.Domain
         IQueryable<TEntity> FindAll();
 
         Task SaveAsync(TEntity entity);
+
+        Task RemoveAsync(TEntity entity);
     }
 }

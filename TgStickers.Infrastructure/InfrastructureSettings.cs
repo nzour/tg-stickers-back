@@ -4,6 +4,7 @@ namespace TgStickers.Infrastructure
     {
         public NHibernateSettings NHibernateSettings { get; set; } = new NHibernateSettings();
         public JwtSettings JwtSettings { get; set; } = new JwtSettings();
+        public TelegramSettings TelegramSettings { get; set; } = new TelegramSettings();
     }
 
     public class NHibernateSettings
@@ -21,5 +22,11 @@ namespace TgStickers.Infrastructure
     {
         public string SecretKey { get; set; } = string.Empty;
         public uint TokenTtl { get; set; } = 0;
+    }
+
+    public class TelegramSettings
+    {
+        public string BotToken { get; set; } = string.Empty;
+        public string DirectoryToSaveImages { get; set; } = string.Empty;
     }
 }

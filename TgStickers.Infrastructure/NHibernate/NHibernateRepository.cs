@@ -29,5 +29,10 @@ namespace TgStickers.Infrastructure.NHibernate
             await _session.SaveAsync(entity);
             await _session.FlushAsync();
         }
+
+        public async Task RemoveAsync(TEntity entity)
+        {
+            await _session.DeleteAsync(entity);
+        }
     }
 }

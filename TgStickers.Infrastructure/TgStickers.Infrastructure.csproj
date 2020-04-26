@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next.StrongName" Version="3.3.3" />
     <PackageReference Include="FluentNHibernate" Version="2.1.2" />
+    <PackageReference Include="Flurl" Version="2.8.2" />
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
@@ -21,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TgStickers.Domain\TgStickers.Domain.csproj" />
+    <ProjectReference Include="..\TgStickers.Utilities\TgStickers.Utilities.fsproj" />
   </ItemGroup>
 
 </Project>

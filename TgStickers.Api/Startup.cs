@@ -25,6 +25,7 @@ namespace TgStickers.Api
 
             _configuration.Bind("Postgres", settings.NHibernateSettings);
             _configuration.Bind("Jwt", settings.JwtSettings);
+            _configuration.Bind("Telegram", settings.TelegramSettings);
 
             services
                 .AddInfrastructure(settings)

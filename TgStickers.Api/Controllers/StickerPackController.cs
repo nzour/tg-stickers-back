@@ -6,6 +6,7 @@ using TgStickers.Api.Services;
 using TgStickers.Application.StickerPacks;
 using TgStickers.Application.StickerPacks.Filters;
 using TgStickers.Infrastructure.Paginating;
+using TgStickers.Infrastructure.Telegram;
 using TgStickers.Infrastructure.Transaction;
 
 namespace TgStickers.Api.Controllers
@@ -58,10 +59,28 @@ namespace TgStickers.Api.Controllers
                 await _stickerPackService.UpdateStickerPackAsync(currentAdmin, stickerPackId, input));
         }
 
+        [HttpDelete("{stickerPackId:guid}")]
+        public async Task RemoveStickerPackAsync([FromRoute] Guid stickerPackId)
+        {
+            var currentAdmin = await _currentAdminProvider.ProviderCurrentAdminAsync();
+
+            await _transactional.ExecuteAsync(async () =>
+                await _stickerPackService.RemoveStickerPackAsync(currentAdmin, stickerPackId));
+        }
+
         [HttpPatch("claps"), AllowAnonymous]
         public async Task IncreaseClapsAsync([FromBody] IncreaseClapsInput input)
         {
-            await _transactional.ExecuteAsync(async () => await _stickerPackService.IncreaseClapsAsync(input.ClapsInput));
+            await _transactional.ExecuteAsync(async () =>
+                await _stickerPackService.IncreaseClapsAsync(input.ClapsInput));
+        }
+
+        [HttpHead("{name:string}/exists")]
+        public async Task<StatusCodeResult> IsStickerPackExistsWithNameAsync([FromServices] TelegramBot tgBot, [FromRoute] string name)
+        {
+            return await tgBot.IsStickerPackExistsAsync(name)
+                ? new OkResult() as StatusCodeResult
+                : new NotFoundResult();
         }
     }
 }

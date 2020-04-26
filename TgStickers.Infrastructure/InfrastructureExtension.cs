@@ -8,6 +8,7 @@ using TgStickers.Domain.Entity;
 using TgStickers.Infrastructure.Jwt;
 using TgStickers.Infrastructure.NHibernate;
 using TgStickers.Infrastructure.Security;
+using TgStickers.Infrastructure.Telegram;
 using TgStickers.Infrastructure.Transaction;
 
 namespace TgStickers.Infrastructure
@@ -19,6 +20,7 @@ namespace TgStickers.Infrastructure
             return services
                 .AddNHibernate(settings.NHibernateSettings)
                 .AddRepositories()
+                .AddTelegramClient(settings.TelegramSettings)
                 .AddBCryptPasswordEncoder()
                 .AddDefaultJwtManager(settings.JwtSettings)
                 .AddJwtAuthentication(settings.JwtSettings);
@@ -77,6 +79,11 @@ namespace TgStickers.Infrastructure
                 });
 
             return services;
+        }
+
+        public static IServiceCollection AddTelegramClient(this IServiceCollection services, TelegramSettings settings)
+        {
+            return services.AddTransient(_ => new TelegramBot(settings.BotToken, settings.DirectoryToSaveImages));
         }
     }
 }

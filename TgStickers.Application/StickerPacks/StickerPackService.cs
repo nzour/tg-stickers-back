@@ -10,6 +10,7 @@ using TgStickers.Application.StickerPacks.Filters;
 using TgStickers.Domain;
 using TgStickers.Domain.Entity;
 using TgStickers.Infrastructure.Paginating;
+using TgStickers.Infrastructure.Telegram;
 using static TgStickers.Application.Common.SearchType;
 using static TgStickers.Application.Common.SortType;
 using static TgStickers.Application.StickerPacks.Filters.StickerPackSortingField;
@@ -20,11 +21,13 @@ namespace TgStickers.Application.StickerPacks
     {
         private readonly IRepository<StickerPack> _stickerPackRepository;
         private readonly IRepository<Tag> _tagRepository;
+        private readonly TelegramBot _tgClient;
 
-        public StickerPackService(IRepository<StickerPack> stickerPackRepository, IRepository<Tag> tagRepository)
+        public StickerPackService(IRepository<StickerPack> stickerPackRepository, IRepository<Tag> tagRepository, TelegramBot tgClient)
         {
             _stickerPackRepository = stickerPackRepository;
             _tagRepository = tagRepository;
+            _tgClient = tgClient;
         }
 
         public async Task<PaginatedData<StickerPackOutput>> FindAllStickerPacksAsync(
@@ -36,7 +39,7 @@ namespace TgStickers.Application.StickerPacks
         )
         {
             var stickerPacks = _stickerPackRepository.FindAll();
-    
+
             stickerPacks = ApplySorting(stickerPacks, sorting.SortBy, sorting.SortType);
             stickerPacks = ApplyNameFilter(stickerPacks, nameFilter);
             stickerPacks = ApplyClapsFilter(stickerPacks, clapsFilter);
@@ -49,6 +52,11 @@ namespace TgStickers.Application.StickerPacks
 
         public async Task<StickerPackOutput> CreateStickerPackAsync(Admin currentAdmin, StickerPackInput input)
         {
+            if (!await _tgClient.IsStickerPackExistsAsync(input.Name))
+            {
+                throw StickerPackException.StickerPackDoesNotExists(input.Name);
+            }
+
             var stickerPack = currentAdmin.AddNewStickerPack(input.Name, input.SharedUrl, await FindTagsAsync(input.TagIds));
 
             return new StickerPackOutput(stickerPack);
@@ -58,9 +66,11 @@ namespace TgStickers.Application.StickerPacks
         {
             var stickerPack = await GetStickerPack(stickerPackId);
 
-            if (!currentAdmin.IsOwnerOf(stickerPack))
+            StickerPackException.AssertOwnStickerPack(currentAdmin, stickerPack);
+
+            if (!await _tgClient.IsStickerPackExistsAsync(input.Name))
             {
-                throw UpdateStickerPackException.StickerPackDoesNotBelongToYou(stickerPackId);
+                throw StickerPackException.StickerPackDoesNotExists(input.Name);
             }
 
             stickerPack.Name = input.Name;
@@ -68,6 +78,15 @@ namespace TgStickers.Application.StickerPacks
             stickerPack.ReplaceTags(await FindTagsAsync(input.TagIds));
 
             return new StickerPackOutput(stickerPack);
+        }
+
+        public async Task RemoveStickerPackAsync(Admin currentAdmin, Guid stickerPackId)
+        {
+            var stickerPack = await GetStickerPack(stickerPackId);
+
+            StickerPackException.AssertOwnStickerPack(currentAdmin, stickerPack);
+
+            await _stickerPackRepository.RemoveAsync(stickerPack);
         }
 
         public async Task IncreaseClapsAsync(IEnumerable<ClapsToAddInput> inputs)
