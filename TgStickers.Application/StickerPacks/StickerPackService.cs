@@ -164,8 +164,8 @@ namespace TgStickers.Application.StickerPacks
 
             return filter.NameSearchType switch
             {
-                Contains => stickerPacks.Where(s => s.Name.Contains(filter.Name)),
-                SearchType.Equals => stickerPacks.Where(s => filter.Name == s.Name),
+                Contains => stickerPacks.Where(s => s.Name.Contains(filter.Name) || (null != s.Alias && s.Alias.Contains(filter.Name))),
+                SearchType.Equals => stickerPacks.Where(s => filter.Name == s.Name || filter.Name == s.Alias),
                 _ => stickerPacks
             };
         }
