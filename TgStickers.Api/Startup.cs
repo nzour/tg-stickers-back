@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json.Converters;
 using TgStickers.Api.Configuration;
 using TgStickers.Api.Services;
@@ -57,6 +58,11 @@ namespace TgStickers.Api
                 .UseAuthentication()
                 .UseRouting()
                 .UseAuthorization()
-                .UseEndpoints(endpoints => endpoints.MapControllers());
+                .UseEndpoints(endpoints => endpoints.MapControllers())
+                .UseStaticFiles(new StaticFileOptions
+                {
+                    RequestPath = "/files",
+                    FileProvider = new PhysicalFileProvider(root: _configuration["Telegram:DirectoryToSaveImages"])
+                });
     }
 }
