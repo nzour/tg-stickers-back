@@ -52,12 +52,14 @@ namespace TgStickers.Infrastructure.Telegram
 
         public async Task<string> GetFileFullPathAsync(string stickerPackName, string fileId)
         {
-            var filePath = FormatFilename(stickerPackName, fileId);
+            var filePath = GetFormattedFilename(stickerPackName, fileId, _directoryForImages);
 
             if (File.Exists(filePath))
             {
                 return filePath;
             }
+
+            Directory.CreateDirectory(path: $"{_directoryForImages}/{stickerPackName}");
 
             await SaveFileAsync(filePath, await DownloadFileAsync(fileId));
 
@@ -86,11 +88,11 @@ namespace TgStickers.Infrastructure.Telegram
             await fileStream.FlushAsync();
         }
 
-        private string FormatFilename(string stickerPackName, string fileId)
+        public static string GetFormattedFilename(string stickerPackName, string fileId, string? baseDirectory = null)
         {
-            return string.IsNullOrEmpty(_directoryForImages)
+            return string.IsNullOrEmpty(baseDirectory)
                 ? $"{stickerPackName}/{fileId}.webp"
-                : $"{_directoryForImages}/{stickerPackName}/{fileId}.webp";
+                : $"{baseDirectory}/{stickerPackName}/{fileId}.webp";
         }
     }
 }
