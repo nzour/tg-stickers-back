@@ -1,3 +1,4 @@
+using System.Data;
 using FluentMigrator;
 
 namespace TgStickers.Migrations
@@ -25,7 +26,8 @@ namespace TgStickers.Migrations
                 .FromTable("Donations")
                 .ForeignColumn("StickerPackId")
                 .ToTable("StickerPacks")
-                .PrimaryColumn("Id");
+                .PrimaryColumn("Id")
+                .OnDelete(Rule.Cascade);
         }
 
         public override void Down()

@@ -1,3 +1,4 @@
+using System.Data;
 using FluentMigrator;
 
 namespace TgStickers.Migrations
@@ -19,13 +20,15 @@ namespace TgStickers.Migrations
                 .FromTable("StickerTags_Pivot")
                 .ForeignColumn("StickerPackId")
                 .ToTable("StickerPacks")
-                .PrimaryColumn("Id");
+                .PrimaryColumn("Id")
+                .OnDelete(Rule.Cascade);
 
             Create.ForeignKey("StickerTags_Pivot_TagId_fkey")
                 .FromTable("StickerTags_Pivot")
                 .ForeignColumn("TagId")
                 .ToTable("Tags")
-                .PrimaryColumn("Id");
+                .PrimaryColumn("Id")
+                .OnDelete(Rule.Cascade);
         }
 
         public override void Down()
