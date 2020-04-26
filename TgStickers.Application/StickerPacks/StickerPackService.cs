@@ -21,13 +21,13 @@ namespace TgStickers.Application.StickerPacks
     {
         private readonly IRepository<StickerPack> _stickerPackRepository;
         private readonly IRepository<Tag> _tagRepository;
-        private readonly TelegramBot _tgClient;
+        private readonly TelegramBot _tgBot;
 
-        public StickerPackService(IRepository<StickerPack> stickerPackRepository, IRepository<Tag> tagRepository, TelegramBot tgClient)
+        public StickerPackService(IRepository<StickerPack> stickerPackRepository, IRepository<Tag> tagRepository, TelegramBot tgBot)
         {
             _stickerPackRepository = stickerPackRepository;
             _tagRepository = tagRepository;
-            _tgClient = tgClient;
+            _tgBot = tgBot;
         }
 
         public async Task<PaginatedData<StickerPackOutput>> FindAllStickerPacksAsync(
@@ -45,21 +45,34 @@ namespace TgStickers.Application.StickerPacks
             stickerPacks = ApplyClapsFilter(stickerPacks, clapsFilter);
             stickerPacks = await ApplyTagsFilterAsync(stickerPacks, tagsFilter);
 
-            return await stickerPacks
-                .Select(s => new StickerPackOutput(s))
-                .PaginateAsync(pagination);
+            var paginatedStickers = await stickerPacks.PaginateAsync(pagination);
+
+            var result = new PaginatedData<StickerPackOutput>(paginatedStickers.Total, new List<StickerPackOutput>());
+
+            foreach (var stickerPack in paginatedStickers.Data)
+            {
+                var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
+                var filePath = await _tgBot.GetFileFullPathAsync(stickerPack.Name, fileId: stickers.First());
+
+                result.Data = result.Data.Append(new StickerPackOutput(stickerPack, filePath, stickers.Count()));
+            }
+
+            return result;
         }
 
         public async Task<StickerPackOutput> CreateStickerPackAsync(Admin currentAdmin, StickerPackInput input)
         {
-            if (!await _tgClient.IsStickerPackExistsAsync(input.Name))
+            if (!await _tgBot.IsStickerPackExistsAsync(input.Name))
             {
                 throw StickerPackException.StickerPackDoesNotExists(input.Name);
             }
 
             var stickerPack = currentAdmin.AddNewStickerPack(input.Name, input.SharedUrl, await FindTagsAsync(input.TagIds));
 
-            return new StickerPackOutput(stickerPack);
+            var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
+            var filePath = await _tgBot.GetFileFullPathAsync(stickerPack.Name, fileId: stickers.First());
+
+            return new StickerPackOutput(stickerPack, filePath, stickers.Count());
         }
 
         public async Task<StickerPackOutput> UpdateStickerPackAsync(Admin currentAdmin, Guid stickerPackId, StickerPackInput input)
@@ -68,7 +81,7 @@ namespace TgStickers.Application.StickerPacks
 
             StickerPackException.AssertOwnStickerPack(currentAdmin, stickerPack);
 
-            if (!await _tgClient.IsStickerPackExistsAsync(input.Name))
+            if (!await _tgBot.IsStickerPackExistsAsync(input.Name))
             {
                 throw StickerPackException.StickerPackDoesNotExists(input.Name);
             }
@@ -77,7 +90,10 @@ namespace TgStickers.Application.StickerPacks
             stickerPack.SharedUrl = input.SharedUrl;
             stickerPack.ReplaceTags(await FindTagsAsync(input.TagIds));
 
-            return new StickerPackOutput(stickerPack);
+            var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
+            var filePath = await _tgBot.GetFileFullPathAsync(stickerPack.Name, fileId: stickers.First());
+
+            return new StickerPackOutput(stickerPack, filePath, stickers.Count());
         }
 
         public async Task RemoveStickerPackAsync(Admin currentAdmin, Guid stickerPackId)

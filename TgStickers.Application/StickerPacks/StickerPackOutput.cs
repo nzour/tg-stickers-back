@@ -16,8 +16,10 @@ namespace TgStickers.Application.StickerPacks
         public DateTime CreatedAt { get; set; }
         public AdminOutput CreatedBy { get; set; }
         public IEnumerable<TagOutput> Tags { get; set; }
+        public string FirstStickerPath { get; set; }
+        public int StickersCount { get; set; }
 
-        public StickerPackOutput(StickerPack stickerPack)
+        public StickerPackOutput(StickerPack stickerPack, string firstStickerPath, int stickersCount)
         {
             Id = stickerPack.Id;
             Name = stickerPack.Name;
@@ -26,6 +28,8 @@ namespace TgStickers.Application.StickerPacks
             CreatedAt = stickerPack.CreatedAt;
             CreatedBy = new AdminOutput(stickerPack.CreatedBy);
             Tags = stickerPack.Tags.Select(t => new TagOutput(t)).ToList();
+            FirstStickerPath = firstStickerPath;
+            StickersCount = stickersCount;
         }
     }
 }
