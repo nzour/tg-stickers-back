@@ -67,7 +67,7 @@ namespace TgStickers.Application.StickerPacks
                 throw StickerPackException.StickerPackDoesNotExists(input.Name);
             }
 
-            var stickerPack = currentAdmin.AddNewStickerPack(input.Name, input.SharedUrl, await FindTagsAsync(input.TagIds));
+            var stickerPack = currentAdmin.AddNewStickerPack(input.Name, input.Alias, await FindTagsAsync(input.TagIds));
 
             var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
             var filePath = await _tgBot.GetFileFullPathAsync(stickerPack.Name, fileId: stickers.First());
@@ -87,7 +87,7 @@ namespace TgStickers.Application.StickerPacks
             }
 
             stickerPack.Name = input.Name;
-            stickerPack.SharedUrl = input.SharedUrl;
+            stickerPack.Alias = input.Alias;
             stickerPack.ReplaceTags(await FindTagsAsync(input.TagIds));
 
             var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);

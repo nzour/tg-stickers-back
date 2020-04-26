@@ -75,7 +75,7 @@ namespace TgStickers.Api.Controllers
                 await _stickerPackService.IncreaseClapsAsync(input.ClapsInput));
         }
 
-        [HttpHead("{name:string}/exists")]
+        [HttpHead("{name}/exists")]
         public async Task<StatusCodeResult> IsStickerPackExistsWithNameAsync([FromServices] TelegramBot tgBot, [FromRoute] string name)
         {
             return await tgBot.IsStickerPackExistsAsync(name)

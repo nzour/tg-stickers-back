@@ -11,7 +11,7 @@ namespace TgStickers.Application.StickerPacks
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string SharedUrl { get; set; }
+        public string? Alias { get; set; }
         public int Claps { get; set; }
         public DateTime CreatedAt { get; set; }
         public AdminOutput CreatedBy { get; set; }
@@ -23,7 +23,7 @@ namespace TgStickers.Application.StickerPacks
         {
             Id = stickerPack.Id;
             Name = stickerPack.Name;
-            SharedUrl = stickerPack.SharedUrl;
+            Alias = stickerPack.Alias;
             Claps = stickerPack.Claps;
             CreatedAt = stickerPack.CreatedAt;
             CreatedBy = new AdminOutput(stickerPack.CreatedBy);

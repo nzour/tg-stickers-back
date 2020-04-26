@@ -11,7 +11,7 @@ namespace TgStickers.Migrations
             Create.Table("StickerPacks")
                 .WithColumn("Id").AsGuid().PrimaryKey()
                 .WithColumn("Name").AsString().NotNullable()
-                .WithColumn("SharedUrl").AsString().NotNullable()
+                .WithColumn("Alias").AsString().NotNullable()
                 .WithColumn("CreatedAt").AsDateTime().NotNullable()
                 .WithColumn("CreatedById").AsGuid().NotNullable();
 

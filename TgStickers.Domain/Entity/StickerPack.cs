@@ -9,7 +9,7 @@ namespace TgStickers.Domain.Entity
     {
         public Guid Id { get; }
         public string Name { get; set; }
-        public string SharedUrl { get; set; }
+        public string? Alias { get; set; }
         public int Claps { get; protected set; }
         public DateTime CreatedAt { get; }
         public Admin CreatedBy { get; }
@@ -19,11 +19,11 @@ namespace TgStickers.Domain.Entity
         private readonly IList<Donation> _donations;
         private readonly IList<Tag> _tags;
 
-        internal StickerPack(string name, string sharedUrl, Admin createdBy, IEnumerable<Tag> tags)
+        internal StickerPack(string name, string? alias, Admin createdBy, IEnumerable<Tag> tags)
         {
             Id = Guid.NewGuid();
             Name = name;
-            SharedUrl = sharedUrl;
+            Alias = alias;
             Claps = 0;
             CreatedAt = DateTime.UtcNow;
             CreatedBy = createdBy;

@@ -13,7 +13,7 @@ namespace TgStickers.Infrastructure.NHibernate.Mappings
             Id(x => x.Id).GeneratedBy.Assigned();
 
             Map(x => x.Name).Not.Nullable();
-            Map(x => x.SharedUrl).Not.Nullable();
+            Map(x => x.Alias).Not.Nullable();
             Map(x => x.Claps).Not.Nullable();
             Map(x => x.CreatedAt).Not.Nullable();
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace TgStickers.Application.StickerPacks
 {
@@ -8,8 +7,7 @@ namespace TgStickers.Application.StickerPacks
     {
         public string Name { get; set; } = string.Empty;
 
-        [Url]
-        public string SharedUrl { get; set; } = string.Empty;
+        public string? Alias { get; set; }
 
         public IEnumerable<Guid> TagIds { get; set; } = new List<Guid>();
     }
