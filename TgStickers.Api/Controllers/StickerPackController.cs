@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -81,6 +82,12 @@ namespace TgStickers.Api.Controllers
             return await tgBot.IsStickerPackExistsAsync(name)
                 ? new OkResult() as StatusCodeResult
                 : new NotFoundResult();
+        }
+
+        [HttpGet("{stickerPackId:guid}/images")]
+        public async Task<IEnumerable<string>> GetStickerPackImagesAsync([FromRoute] Guid stickerPackId)
+        {
+            return await _stickerPackService.GetStickerPackImages(stickerPackId);
         }
     }
 }

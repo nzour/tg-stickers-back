@@ -77,7 +77,7 @@ namespace TgStickers.Application.StickerPacks
 
         public async Task<StickerPackOutput> UpdateStickerPackAsync(Admin currentAdmin, Guid stickerPackId, StickerPackInput input)
         {
-            var stickerPack = await GetStickerPack(stickerPackId);
+            var stickerPack = await GetStickerPackAsync(stickerPackId);
 
             StickerPackException.AssertOwnStickerPack(currentAdmin, stickerPack);
 
@@ -98,7 +98,7 @@ namespace TgStickers.Application.StickerPacks
 
         public async Task RemoveStickerPackAsync(Admin currentAdmin, Guid stickerPackId)
         {
-            var stickerPack = await GetStickerPack(stickerPackId);
+            var stickerPack = await GetStickerPackAsync(stickerPackId);
 
             StickerPackException.AssertOwnStickerPack(currentAdmin, stickerPack);
 
@@ -115,7 +115,21 @@ namespace TgStickers.Application.StickerPacks
             }
         }
 
-        private async Task<StickerPack> GetStickerPack(Guid stickerPackId)
+        public async Task<IEnumerable<string>> GetStickerPackImages(Guid stickerPackId)
+        {
+            var stickerPack = await GetStickerPackAsync(stickerPackId);
+
+            var images = new List<string>();
+
+            foreach (var fileId in await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name))
+            {
+                images.Add(await _tgBot.GetFilePathAsync(stickerPack.Name, fileId));
+            }
+
+            return images;
+        }
+
+        private async Task<StickerPack> GetStickerPackAsync(Guid stickerPackId)
         {
             var stickerPack = await _stickerPackRepository.FindByIdAsync(stickerPackId);
 
