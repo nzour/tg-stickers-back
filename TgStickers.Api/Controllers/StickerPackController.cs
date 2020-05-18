@@ -84,7 +84,7 @@ namespace TgStickers.Api.Controllers
                 : new NotFoundResult();
         }
 
-        [HttpGet("{stickerPackId:guid}/images")]
+        [HttpGet("{stickerPackId:guid}/images"), AllowAnonymous]
         public async Task<IEnumerable<string>> GetStickerPackImagesAsync([FromRoute] Guid stickerPackId)
         {
             return await _stickerPackService.GetStickerPackImages(stickerPackId);
