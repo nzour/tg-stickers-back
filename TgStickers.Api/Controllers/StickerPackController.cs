@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,16 +19,19 @@ namespace TgStickers.Api.Controllers
         private readonly StickerPackService _stickerPackService;
         private readonly CurrentAdminProvider _currentAdminProvider;
         private readonly ITransactional _transactional;
+        private readonly TelegramBot _tgBot;
 
         public StickerPackController(
             StickerPackService stickerPackService,
             CurrentAdminProvider currentAdminProvider,
-            ITransactional transactional
+            ITransactional transactional,
+            TelegramBot tgBot
         )
         {
             _stickerPackService = stickerPackService;
             _currentAdminProvider = currentAdminProvider;
             _transactional = transactional;
+            _tgBot = tgBot;
         }
 
         [HttpGet, AllowAnonymous]
@@ -67,6 +71,16 @@ namespace TgStickers.Api.Controllers
 
             await _transactional.ExecuteAsync(async () =>
                 await _stickerPackService.RemoveStickerPackAsync(currentAdmin, stickerPackId));
+        }
+
+        [HttpGet("{stickerPackId:guid}"), AllowAnonymous]
+        public async Task<StickerPackOutput> GetStickerPackByIdAsync([FromRoute] Guid stickerPackId)
+        {
+            var stickerPack = await _stickerPackService.GetStickerPackAsync(stickerPackId);
+            var stickers = await _tgBot.GetStickerFilesFromPackAsync(stickerPack.Name);
+            var filePath = await _tgBot.GetFilePathAsync(stickerPack.Name, fileId: stickers.First());
+
+            return new StickerPackOutput(stickerPack, firstStickerPath: filePath, stickersCount: stickers.Count());
         }
 
         [HttpPatch("claps"), AllowAnonymous]

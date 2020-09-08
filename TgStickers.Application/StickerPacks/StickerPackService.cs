@@ -129,7 +129,7 @@ namespace TgStickers.Application.StickerPacks
             return images;
         }
 
-        private async Task<StickerPack> GetStickerPackAsync(Guid stickerPackId)
+        public async Task<StickerPack> GetStickerPackAsync(Guid stickerPackId)
         {
             var stickerPack = await _stickerPackRepository.FindByIdAsync(stickerPackId);
 
