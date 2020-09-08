@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace TgStickers.Infrastructure.Telegram
         private const string GetStickerPackUrl = "https://api.telegram.org/bot{0}/getStickerSet?name={1}";
         private const string GetFileUrl = "https://api.telegram.org/bot{0}/getFile?file_id={1}";
         private const string GetFileBlobUrl = "https://api.telegram.org/file/bot{0}/{1}?file_id={2}";
+        private const string GetUpdatesUrl = "https://api.telegram.org/bot{0}/getUpdates";
+        private const string SendMessageUrl = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
 
         private readonly string _botToken;
         private readonly string _directoryForImages;
@@ -65,6 +68,25 @@ namespace TgStickers.Infrastructure.Telegram
             await SaveFileAsync(fileFullPath, await DownloadFileAsync(fileId));
 
             return filePath;
+        }
+
+        public async Task SendMessageAsync(string receiver, string content)
+        {
+            var updates = (IEnumerable<dynamic>) (await string.Format(GetUpdatesUrl, _botToken).GetJsonAsync()).result;
+
+            var chatId = updates.First(update =>
+            {
+                try
+                {
+                    return update.message.chat.username == receiver;
+                }
+                catch
+                {
+                    return false;
+                }
+            }).message.chat.id;
+
+            await (string.Format(SendMessageUrl, _botToken, Convert.ToString(chatId), content) as string).GetAsync();
         }
 
         private async Task<Stream> DownloadFileAsync(string fileId)

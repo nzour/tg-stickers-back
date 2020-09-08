@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TgStickers.Domain\TgStickers.Domain.csproj" />
-    <ProjectReference Include="..\TgStickers.Utilities\TgStickers.Utilities.fsproj" />
   </ItemGroup>
 
 </Project>

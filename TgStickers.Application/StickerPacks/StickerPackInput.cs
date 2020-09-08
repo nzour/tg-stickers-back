@@ -11,4 +11,11 @@ namespace TgStickers.Application.StickerPacks
 
         public IEnumerable<Guid> TagIds { get; set; } = new List<Guid>();
     }
+
+    public class SendStickerPackToTelegramInput
+    {
+        public string TgUsername { get; set; } = string.Empty;
+
+        public string StickerPackName { get; set; } = string.Empty;
+    }
 }
